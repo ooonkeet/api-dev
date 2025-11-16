@@ -7,6 +7,8 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/jackc/pgx/v5"
+	repo "github.com/ooonkeet/api-dev/e-commApi/internal/adapters/postgresql/sqlc"
 	"github.com/ooonkeet/api-dev/e-commApi/internal/products"
 )
 
@@ -31,7 +33,7 @@ func (app *application) mount() http.Handler{
   r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
     w.Write([]byte("all good"))
   })
-  productService:=products.NewService()
+  productService:=products.NewService(repo.New(app.db))
   productsHandler:=products.NewHandler(productService)
   r.Get("/products",productsHandler.ListProducts)
 	// http.ListenAndServe(":3333",r)
@@ -54,6 +56,7 @@ type application struct {
 	config config
 	// logger
 	// db driver
+	db *pgx.Conn
 }
 
 
