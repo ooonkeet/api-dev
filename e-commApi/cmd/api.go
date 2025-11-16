@@ -7,6 +7,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/ooonkeet/api-dev/e-commApi/internal/products"
 )
 
 // import "honnef.co/go/tools/config"
@@ -30,6 +31,8 @@ func (app *application) mount() http.Handler{
   r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
     w.Write([]byte("all good"))
   })
+  productsHandler:=products.NewHandler(nil)
+  r.Get("/products",productsHandler.ListProducts)
 	// http.ListenAndServe(":3333",r)
 	return r
 }
