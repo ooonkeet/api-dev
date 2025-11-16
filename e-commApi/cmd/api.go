@@ -1,6 +1,6 @@
 package main
 
-import "honnef.co/go/tools/config"
+// import "honnef.co/go/tools/config"
 
 type application struct {
 	config config
@@ -13,5 +13,9 @@ type application struct {
 
 type config struct{
 	addr string
-	db dbComfig
+	db dbConfig
+}
+
+type dbConfig struct{
+	dsn string
 }
