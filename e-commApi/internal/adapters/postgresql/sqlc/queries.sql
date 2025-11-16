@@ -1,15 +1,14 @@
--- name: ListProducts:many
-
+-- name: ListProducts :many
 SELECT
-    *
+ *
 FROM 
-    products;
+ products;
 
--- name: FindProductByID : one
 
+-- name: GetProduct :one
 SELECT
-    * 
+ * 
 FROM 
-    products 
+ products 
 WHERE 
-    id = $1;
+ id = $1;
