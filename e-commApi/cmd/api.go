@@ -9,6 +9,7 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/jackc/pgx/v5"
 	repo "github.com/ooonkeet/api-dev/e-commApi/internal/adapters/postgresql/sqlc"
+	"github.com/ooonkeet/api-dev/e-commApi/internal/orders"
 	"github.com/ooonkeet/api-dev/e-commApi/internal/products"
 )
 
@@ -36,6 +37,9 @@ func (app *application) mount() http.Handler{
   productService:=products.NewService(repo.New(app.db))
   productsHandler:=products.NewHandler(productService)
   r.Get("/products",productsHandler.ListProducts)
+  orderService:=orders.NewService(repo.New(app.db),app.db)
+  ordersHandler:=orders.NewHandler(orderService)
+  r.Post("/orders",ordersHandler.PlaceOrder)
 	// http.ListenAndServe(":3333",r)
 	return r
 }
