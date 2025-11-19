@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from django.http import JsonResponse
 from students.models import Student
 from .serializers import StudentSerializer,EmployeeSerializer
@@ -132,6 +132,21 @@ class EmployeeViewset(viewsets.ViewSet):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors)
+    def retrieve(self, req, pk=None):
+        employee=get_object_or_404(Employee,pk=pk)
+        serializer=EmployeeSerializer(employee)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+    def update(self,req,pk=None):
+        employee=get_object_or_404(Employee,pk=pk)
+        serializer=EmployeeSerializer(employee,data=req.data)
+        if(serializer.is_valid()):
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+    def delete(self,req,pk=None):
+        employee=get_object_or_404(Employee,pk=pk)
+        employee.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 
