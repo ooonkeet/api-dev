@@ -114,8 +114,11 @@ class Employees(generics.ListCreateAPIView):
     queryset=Employee.objects.all()
     serializer_class=EmployeeSerializer
 
-class EmployeeDetail(generics.RetrieveAPIView):
-    pass
+class EmployeeDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset=Employee.objects.all()
+    serializer_class=EmployeeSerializer
+    lookup_field='pk'
+
 
     
 
